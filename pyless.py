@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 from io import TextIOWrapper, BytesIO
 from subprocess import Popen, PIPE
 
@@ -12,17 +13,20 @@ Most useful at the interpreter in combination with contextlib.redirect_stdout
 ...     p.display() # completely optional, will be called by __exit__ if not here
 """
 
-__all__ = ['Pager']
+__all__ = ['Pager', 'StdoutPager']
+
+PAGER_COMMAND = ['more'] if sys.platform == "win32" else ['less', '-']
+PAGER_USE_SHELL = sys.platform == "win32"
 
 class Pager(TextIOWrapper):
     def __init__(self):
-        self.displayed = False
         super().__init__(BytesIO())
+        self.displayed = False
 
     def display(self):
         """Creates a subprocess to less, sending itself to stdin"""
         self.seek(0)
-        with Popen(['less', '-'], stdin=PIPE) as process:
+        with Popen(PAGER_COMMAND, stdin=PIPE, shell=PAGER_USE_SHELL) as process:
             process.communicate(self.buffer.getbuffer())
         self.displayed = True
 
