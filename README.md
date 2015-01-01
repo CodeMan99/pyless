@@ -14,4 +14,12 @@ This will create a pager, and on exit send its own content to `less`.
 ...     print("Hello", file=p)
 ```
 
+This will create a pager that sets itself to sys.stdout.
+
+```python
+>>> from pyless import StdoutPager
+>>> with StdoutPager():
+...    print("Hello")
+```
+
 *Only tested on python 3.4*

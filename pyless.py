@@ -34,3 +34,12 @@ class Pager(TextIOWrapper):
         if not self.displayed:
             self.display()
         super().__exit__(type, value, traceback)
+
+class StdoutPager(Pager):
+    def __init__(self):
+        super().__init__()
+        sys.stdout = self
+
+    def __exit__(self, type, value, traceback):
+        sys.stdout = sys.__stdout__
+        super().__exit__(type, value, traceback)
