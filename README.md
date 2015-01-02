@@ -22,4 +22,7 @@ This will create a pager that sets itself to sys.stdout.
 ...    print("Hello")
 ```
 
-*Only tested on python 3.4*
+###Lisense###
+[LGPL v3](http://www.gnu.org/licenses/lgpl-3.0.txt)
+
+*Disclaimer: Only tested on python 3.4*
